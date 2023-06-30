@@ -8,10 +8,14 @@ d[i, j] = min(d[i-1], j] + insert_cost,
 '''
 
 def levenshtein(s1, s2, debug = False):
+    if s1 == s2:
+        return 0
     if len(s1) < len(s2):
         return levenshtein(s1, s2, debug)
-    # 두 번째로 입력한 문자열이 없다면?
-    if len(s2) == 0:
+    # 입력한 문자열이 없다면?
+    elif len(s1) == 0:
+        return len(s2)
+    elif len(s2) == 0:
         return len(s1)
     
     previous_row = range(len(s2) + 1)
@@ -22,7 +26,7 @@ def levenshtein(s1, s2, debug = False):
             insertions = previous_row[j+1] + 1
             deletions = current_row[j] + 1
             substitutions = previous_row[j] + (c1 != c2)
-            # 각 비용 중 가장 작은 비용을 current_now에 추가
+            # 각 비용 중 가장 작은 비용을 current_row에 추가
             current_row.append(min(insertions, deletions, substitutions))
         if debug:
             print(current_row[1:])
